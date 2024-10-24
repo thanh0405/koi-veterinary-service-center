@@ -252,7 +252,7 @@ GO
 
 INSERT INTO Users (UserId, UserName, Password, Role)
 VALUES
-(1, N'admin_nguyen', 'hashed_password_1', 'Admin'),
+(1, 'admin_nguyen', 'hashed_password_1', 'Admin'),
 (2, 'vet_A', 'hashed_password_2', 'Vet'),
 (3, 'vet_B', 'hashed_password_3', 'Vet'),
 (4, 'vet_C', 'hashed_password_4', 'Vet'),
