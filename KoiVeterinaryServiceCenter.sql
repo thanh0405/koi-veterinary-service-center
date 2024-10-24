@@ -166,3 +166,100 @@ VALUES
 (8, 8, 'Khám bệnh định kỳ'),
 (9, 9, 'Dịch vụ vệ sinh hồ cá'),
 (10, 10, 'Tư vấn trực tuyến, Khám bệnh định kỳ');
+
+
+
+CREATE TABLE MedicalRecords (
+    RecordId INT PRIMARY KEY,
+    CustomerId INT NOT NULL,
+    VetId INT NOT NULL,
+    ServiceId INT NOT NULL,
+    Symptoms TEXT,
+    Diagnosis TEXT,
+    Treatment TEXT,
+    Date DATETIME NOT NULL,
+    FOREIGN KEY (CustomerId) REFERENCES Customers(CustomerId),
+    FOREIGN KEY (VetId) REFERENCES Veterinarians(VetId),
+    FOREIGN KEY (ServiceId) REFERENCES Services(ServiceId)
+)
+GO
+
+INSERT INTO MedicalRecords (RecordId, CustomerId, VetId, ServiceId, Symptoms, Diagnosis, Treatment, Date)
+VALUES
+(1, 1, 1, 3, 'Cá bơi không ổn định', 'Nhiễm trùng bơi', 'Điều trị bằng kháng sinh và cải thiện chất lượng nước', '2024-10-22 09:30:00'),
+(2, 2, 2, 3, 'Cá có vết thương trên thân', 'Nhiễm khuẩn da', 'Sử dụng thuốc kháng khuẩn và tách riêng cá bệnh', '2024-10-23 14:15:00'),
+(3, 3, 3, 4, 'Cá ăn ít, lờ đờ', 'Stress do môi trường', 'Điều chỉnh pH nước và bổ sung vitamin', '2024-10-24 11:00:00'),
+(4, 4, 4, 3, 'Cá có đốm trắng trên thân', 'Bệnh đốm trắng', 'Điều trị bằng thuốc đặc trị và tăng cường hệ miễn dịch', '2024-10-25 10:45:00'),
+(5, 5, 5, 4, 'Cá thở nhanh, nổi trên mặt nước', 'Thiếu oxy', 'Tăng cường oxy hòa tan và kiểm tra hệ thống lọc', '2024-10-26 16:30:00'),
+(6, 6, 6, 3, 'Cá có vảy xù xì, không đều', 'Nhiễm ký sinh trùng', 'Sử dụng thuốc diệt ký sinh trùng và cải thiện vệ sinh hồ', '2024-10-27 13:20:00'),
+(7, 7, 7, 4, 'Cá có mắt lồi', 'Bệnh mắt phồng', 'Điều trị bằng kháng sinh và điều chỉnh chế độ ăn', '2024-10-28 09:00:00'),
+(8, 8, 8, 3, 'Cá có màu sắc nhợt nhạt', 'Thiếu dinh dưỡng', 'Bổ sung thức ăn giàu dinh dưỡng và vitamin', '2024-10-29 15:45:00'),
+(9, 9, 9, 4, 'Cá có dấu hiệu sưng mang', 'Nhiễm trùng mang', 'Điều trị bằng thuốc kháng khuẩn và cải thiện chất lượng nước', '2024-10-30 11:30:00'),
+(10, 10, 10, 3, 'Cá có vết loét trên thân', 'Bệnh loét da', 'Sử dụng thuốc đặc trị và tăng cường hệ miễn dịch', '2024-10-31 14:00:00');
+
+CREATE TABLE Notifications (
+    NotificationId INT PRIMARY KEY,
+    CustomerId INT NOT NULL,
+    Message TEXT,
+    DateSent DATETIME NOT NULL,
+    FOREIGN KEY (CustomerId) REFERENCES Customers(CustomerId)
+)
+GO
+
+INSERT INTO Notifications (NotificationId, CustomerId, Message, DateSent)
+VALUES
+(1, 1, 'Xin nhắc nhở: Lịch hẹn kiểm tra sức khỏe định kỳ cho cá Koi của bạn vào ngày mai lúc 10:00.', '2024-11-01 09:00:00'),
+(2, 2, 'Chúc mừng! Bạn đã nhận được voucher giảm giá 10% cho lần khám tiếp theo.', '2024-11-02 14:30:00'),
+(3, 3, 'Kết quả xét nghiệm nước hồ của bạn đã có. Vui lòng đăng nhập để xem chi tiết.', '2024-11-03 11:45:00'),
+(4, 4, 'Nhắc nhở: Đã đến lúc thay filter cho hệ thống lọc nước của bạn.', '2024-11-04 10:00:00'),
+(5, 5, 'Cảm ơn bạn đã sử dụng dịch vụ của chúng tôi. Hãy để lại đánh giá để chúng tôi phục vụ tốt hơn.', '2024-11-05 16:15:00'),
+(6, 6, 'Thông báo: Chúng tôi sẽ tổ chức hội thảo về "Chăm sóc cá Koi mùa đông" vào tuần tới. Đăng ký ngay!', '2024-11-06 13:00:00'),
+(7, 7, 'Lời nhắc: Đơn thuốc của bạn sẽ hết hạn trong 3 ngày nữa. Vui lòng liên hệ nếu cần gia hạn.', '2024-11-07 09:30:00'),
+(8, 8, 'Chúc mừng sinh nhật! Nhân dịp này, bạn được tặng một lần tư vấn miễn phí.', '2024-11-08 08:00:00'),
+(9, 9, 'Cảnh báo: Nhiệt độ nước hồ của bạn đang cao hơn bình thường. Kiểm tra ngay để đảm bảo an toàn cho cá.', '2024-11-09 15:30:00'),
+(10, 10, 'Thông báo bảo trì: Hệ thống sẽ tạm ngưng hoạt động để nâng cấp vào ngày 15/11 từ 22:00 đến 24:00.', '2024-11-10 12:00:00');
+
+CREATE TABLE Promotions (
+    PromotionId INT PRIMARY KEY,
+    ServiceId INT NOT NULL,
+    DiscountPercentage DECIMAL(5, 2),
+    StartDate DATETIME NOT NULL,
+    EndDate DATETIME NOT NULL,
+    FOREIGN KEY (ServiceId) REFERENCES Services(ServiceId)
+)
+GO
+
+INSERT INTO Promotions (PromotionId, ServiceId, DiscountPercentage, StartDate, EndDate)
+VALUES
+(1, 1, 15.00, '2024-12-01 00:00:00', '2024-12-31 23:59:59'),
+(2, 2, 10.00, '2024-11-15 00:00:00', '2024-11-30 23:59:59'),
+(3, 3, 20.00, '2025-01-01 00:00:00', '2025-01-15 23:59:59'),
+(4, 4, 5.00, '2024-12-15 00:00:00', '2025-01-15 23:59:59'),
+(5, 5, 25.00, '2024-11-11 00:00:00', '2024-11-11 23:59:59'),
+(6, 6, 30.00, '2025-02-14 00:00:00', '2025-02-14 23:59:59'),
+(7, 7, 12.50, '2024-12-24 00:00:00', '2024-12-26 23:59:59'),
+(8, 8, 18.00, '2025-03-01 00:00:00', '2025-03-31 23:59:59'),
+(9, 9, 8.00, '2025-04-01 00:00:00', '2025-04-30 23:59:59'),
+(10, 10, 22.00, '2025-05-01 00:00:00', '2025-05-07 23:59:59');
+
+CREATE TABLE Users (
+    UserId INT PRIMARY KEY,
+    UserName NVARCHAR(50) NOT NULL UNIQUE,
+    Password NVARCHAR(255) NOT NULL,
+    Role NVARCHAR(50) CHECK (Role IN ('Admin', 'Vet'))
+)
+GO
+
+INSERT INTO Users (UserId, UserName, Password, Role)
+VALUES
+(1, N'admin_nguyen', 'hashed_password_1', 'Admin'),
+(2, 'vet_A', 'hashed_password_2', 'Vet'),
+(3, 'vet_B', 'hashed_password_3', 'Vet'),
+(4, 'vet_C', 'hashed_password_4', 'Vet'),
+(5, 'vet_D', 'hashed_password_5', 'Vet'),
+(6, 'vet_E', 'hashed_password_6', 'Vet'),
+(7, 'vet_F', 'hashed_password_7', 'Vet'),
+(8, 'vet_G', 'hashed_password_8', 'Vet'),
+(9, 'vet_H', 'hashed_password_9', 'Vet'),
+(10, 'vet_I', 'hashed_password_10', 'Vet');
+(11, 'vet_K', 'hashed_password_11', 'Vet');
